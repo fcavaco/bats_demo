@@ -1,6 +1,8 @@
 # BATS testing demo
 
-![](../images/bat2.png)![](../images/bat2.png)![](../images/bat2.png)
+![](./images/bat2.png)
+![](./images/bat2.png)
+![](./images/bat2.png)
 
 I am no way an expert but have been crafting [bash](https://www.gnu.org/software/bash/manual/bash.html) scripts here and there for some time now, mostly for [CI/CD](https://en.wikipedia.org/wiki/CI/CD) pipelines. Nothing wrong with that except the use of the word "crafting", as I did no such thing. I normally put something together as a script and pray it will never be changed and will keep working as expected by the shear force of repetition... :) enough said...
 
@@ -53,15 +55,15 @@ code .
   
 ### add [J-Et. Martin "Bats"](https://marketplace.visualstudio.com/items?itemName=jetmartin.bats) plugin to vscode.
 
-<img src="../images/batsplugin.png" width="600">
+<img src="./images/batsplugin.png" width="600">
 
 ### add Microsoft "Remote - WSL" plugin to vscode.
 
-<img src="../images/RemoteWSL_VSCodePlugin.png" width="600">
+<img src="./images/RemoteWSL_VSCodePlugin.png" width="600">
 
 - there are many ways to access your wsl terminal from within vscode, for example as advised [here](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl), but I normally prefer to get it straight from the terminal window as depicted below.
-<img src="../images/selectRemoteWSLTerminal0.png" width="600">
-<img src="../images/selectRemoteWSLTerminal.png" width="600">
+<img src="./images/selectRemoteWSLTerminal0.png" width="600">
+<img src="./images/selectRemoteWSLTerminal.png" width="600">
 
 - you can then toggle the terminal on/off with ctrl+' .
 
@@ -82,3 +84,50 @@ bats test.bats
 ```
 
 ## Test First approach using bats
+
+### Pseudo requirements
+
+- Write a script to create a dotnet core solution containing a class library project, and a unit test project.
+- One argument shall be the solution name.
+- Both project names are derived from the solution name by convention. <sol>CL.<projext> , <sol>UT.<projext>.
+- **class name** on the **class library project** is called **Library.fs** or **Library.cs** depending on the language used.
+- **class name** on the **unit tests project** is called **LibraryTests.fs** or **LibraryTests.cs**.
+- A root directory is created based on the solution name.
+- There is a further argument, language, which determines the kind of <projext> project extension, such that: F# -> .fsproj, C# -> .csproj, assume it only accepts these two languages.
+- A **git repo** is created.
+- A **readme markdown file** is created.
+- A **GNU license** file is created.
+  
+**validation**:
+- **solution name** argument is **always required**.
+- **solution name** argument is an **alphanumeric** string.
+- **script option** for solution name argument is **-s**.
+- **language** is an **optional argument** and it **defaults to C#** when not passed.
+- **script option** for language argument is **-l**.
+- **class library** project is placed under a folder called **src**.
+- **unit test** project is placced under a folder called **test**. 
+  
+
+**expected folder structure (F# example)**
+```xml
+  <Solution>
+    .config
+    .git
+    .paket
+    src
+        <Project>
+            Library.fs
+            <Project>.fsproj
+            paket.references
+    test
+        <ProjectTests>
+            LibraryTests.fs
+            <ProjectTests>.fsproj
+            paket.references
+    .gitignore  
+    paket.dependencies
+    paket.lock
+    readme.md
+    <Solution>.sln
+```
+
